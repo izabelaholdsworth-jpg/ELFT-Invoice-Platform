@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Total Spend -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-nhs-blue">
+        <h3 class="text-sm font-semibold text-gray-500 uppercase">Total Spend (YTD)</h3>
+        <p class="text-3xl font-bold text-gray-800 mt-2" id="kpi-total-spend">£0.00</p>
+        <p class="text-xs text-gray-500 mt-1"><i class="fas fa-arrow-up text-red-500 mr-1"></i>vs Last Year</p>
+    </div>
+
+    <!-- Active Contracts -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-nhs-bright">
+        <h3 class="text-sm font-semibold text-gray-500 uppercase">Active Contracts</h3>
+        <p class="text-3xl font-bold text-gray-800 mt-2" id="kpi-active-contracts">0</p>
+        <div class="flex items-center text-xs text-gray-500 mt-1">
+            <span class="w-2 h-2 rounded-full bg-green-500 mr-1"></span> All Operational
+        </div>
+    </div>
+
+    <!-- Non-PO Spend -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-nhs-warm">
+        <h3 class="text-sm font-semibold text-gray-500 uppercase">Non-PO Spend</h3>
+        <p class="text-3xl font-bold text-gray-800 mt-2"><span id="kpi-non-po">0</span>%</p>
+        <p class="text-xs text-nhs-warm mt-1 font-medium">Target: < 5%</p>
+    </div>
+
+    <!-- Expiring Contracts -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
+        <h3 class="text-sm font-semibold text-gray-500 uppercase">Expiring (90 Days)</h3>
+        <p class="text-3xl font-bold text-gray-800 mt-2" id="kpi-expiring">0</p>
+        <p class="text-xs text-red-500 mt-1 font-medium">Action Required</p>
+    </div>
+</div>
+
+<!-- Secondary KPIs -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded shadow p-4 text-center">
+        <p class="text-sm text-gray-500">Unique Suppliers</p>
+        <p class="text-xl font-bold text-nhs-dark" id="kpi-suppliers">0</p>
+    </div>
+    <div class="bg-white rounded shadow p-4 text-center">
+        <p class="text-sm text-gray-500">Avg Transaction</p>
+        <p class="text-xl font-bold text-nhs-dark" id="kpi-avg-transaction">£0</p>
+    </div>
+    <div class="bg-white rounded shadow p-4 text-center">
+        <p class="text-sm text-gray-500">Suppliers w/o Contract</p>
+        <p class="text-xl font-bold text-red-600" id="kpi-no-contract">0</p>
+    </div>
+    <div class="bg-white rounded shadow p-4 text-center">
+        <p class="text-sm text-gray-500">Top 20 Concentration</p>
+        <p class="text-xl font-bold text-nhs-dark" id="kpi-concentration">0%</p>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <!-- Monthly Trend -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Monthly Spend Trend</h3>
+        <canvas id="monthlyChart" height="200"></canvas>
+    </div>
+
+    <!-- Category Spend -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Top 10 Categories</h3>
+        <canvas id="categoryChart" height="200"></canvas>
+    </div>
+</div>
+
+<div class="bg-white rounded-lg shadow p-6 mb-8">
+    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">
+        Total Spend by Directorate
+        <span class="text-xs text-gray-500 font-normal ml-2">(Top 10, Excluding Aug/Nov 2024)</span>
+    </h3>
+    <canvas id="directorateChart" height="100"></canvas>
+</div>
+
+<!-- Power BI Embed -->
+<div class="bg-white rounded-lg shadow p-6 mb-8">
+    <div class="flex justify-between items-center mb-4 border-b pb-2">
+        <h3 class="text-lg font-bold text-gray-800">
+            <i class="fas fa-chart-bar text-nhs-blue mr-2"></i>ELFT Invoice Analysis Report
+        </h3>
+        <div class="flex items-center gap-2">
+            <span class="bg-nhs-bright text-white text-xs font-semibold px-3 py-1 rounded-full">Power BI</span>
+            <a href="https://app.powerbi.com/view?r=eyJrIjoiNWI1NjljNWQtZWNhZS00MjQxLWEyNjQtMWMwMjQ2OGFiNjMwIiwidCI6Ijc0NDUxNmI0LWJmZmMtNDZmNy05YWZlLWFhM2MwMTkzZTk5NCJ9&pageName=82b54d1a468683c18c87"
+               target="_blank"
+               class="text-nhs-blue hover:text-nhs-dark text-sm">
+                <i class="fas fa-external-link-alt mr-1"></i>Open in new tab
+            </a>
+        </div>
+    </div>
+    <div class="relative w-full" style="padding-bottom: 78.5%; height: 0;">
+        <iframe
+            title="ELFT Invoice analysis"
+            src="https://app.powerbi.com/view?r=eyJrIjoiNWI1NjljNWQtZWNhZS00MjQxLWEyNjQtMWMwMjQ2OGFiNjMwIiwidCI6Ijc0NDUxNmI0LWJmZmMtNDZmNy05YWZlLWFhM2MwMTkzZTk5NCJ9&pageName=82b54d1a468683c18c87"
+            frameborder="0"
+            allowFullScreen="true"
+            class="absolute top-0 left-0 w-full h-full rounded-lg border border-gray-200"
+            style="min-height: 600px;">
+        </iframe>
+    </div>
+    <div class="mt-4 text-center text-xs text-gray-500">
+        <i class="fas fa-info-circle mr-1"></i>
+        Interactive Power BI report - use filters and click on visualizations to explore the data
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetchKPIs();
+        fetchCharts();
+    });
+
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(value);
+    }
+
+    async function fetchKPIs() {
+        try {
+            const response = await fetch('/api/dashboard/kpis');
+            const data = await response.json();
+
+            document.getElementById('kpi-total-spend').textContent = formatCurrency(data.total_spend);
+            document.getElementById('kpi-active-contracts').textContent = data.active_contracts;
+            document.getElementById('kpi-non-po').textContent = data.non_po_percentage;
+            document.getElementById('kpi-expiring').textContent = data.expiring_contracts;
+
+            document.getElementById('kpi-suppliers').textContent = data.unique_suppliers;
+            document.getElementById('kpi-avg-transaction').textContent = formatCurrency(data.avg_transaction);
+            document.getElementById('kpi-no-contract').textContent = data.no_contract_suppliers;
+            document.getElementById('kpi-concentration').textContent = data.top_20_concentration + '%';
+
+        } catch (error) {
+            console.error('Error fetching KPIs:', error);
+        }
+    }
+
+    async function fetchCharts() {
+        try {
+            const response = await fetch('/api/dashboard/charts');
+            const data = await response.json();
+
+            // Debug: Log the data to console
+            console.log('Chart data received:', data);
+
+            // Monthly Trend Chart
+            const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
+            new Chart(ctxMonthly, {
+                type: 'line',
+                data: {
+                    labels: data.monthly_trend.map(d => d.month),
+                    datasets: [
+                        {
+                            label: 'Total Spend',
+                            data: data.monthly_trend.map(d => d.total_spend),
+                            borderColor: '#005EB8',
+                            backgroundColor: 'rgba(0, 94, 184, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Non-PO Spend',
+                            data: data.monthly_trend.map(d => d.non_po_spend),
+                            borderColor: '#ED8B00', // NHS Warm Yellow roughly
+                            borderDash: [5, 5],
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: function (value) { return '£' + value / 1000000 + 'M'; } }
+                        }
+                    }
+                }
+            });
+
+            // Category Chart
+            const ctxCategory = document.getElementById('categoryChart').getContext('2d');
+            new Chart(ctxCategory, {
+                type: 'bar',
+                data: {
+                    labels: data.category_spend.map(d => d.final_category),
+                    datasets: [{
+                        label: 'Spend',
+                        data: data.category_spend.map(d => d.total_spend),
+                        backgroundColor: '#00A9CE'
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    // maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { callback: function (value) { return '£' + value / 1000000 + 'M'; } } }
+                    }
+                }
+            });
+
+            // Directorate Non-PO Chart
+            const ctxDirectorate = document.getElementById('directorateChart').getContext('2d');
+
+            console.log('Directorate data:', data.directorate_spend);
+
+            new Chart(ctxDirectorate, {
+                type: 'bar',
+                data: {
+                    labels: data.directorate_spend.map(d => {
+                        const dir = d.directorate || 'Unknown';
+                        return dir.length > 25 ? dir.substring(0, 25) + '...' : dir;
+                    }),
+                    datasets: [{
+                        label: 'Total Spend',
+                        data: data.directorate_spend.map(d => d.spend || 0),
+                        backgroundColor: '#005EB8'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return '£' + (context.raw / 1000000).toFixed(2) + 'M';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Total Spend (£M)' },
+                            ticks: {
+                                callback: function (value) {
+                                    return '£' + (value / 1000000).toFixed(0) + 'M';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        } catch (error) {
+            console.error('Error fetching charts:', error);
+        }
+    }
+</script>
+{% endblock %}

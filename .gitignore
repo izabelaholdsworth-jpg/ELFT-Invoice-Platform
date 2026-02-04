@@ -1,0 +1,82 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Excel files (source data - don't commit large files)
+*.xlsx
+*.xls
+*.pbix
+
+# Temporary files
+*.tmp
+temp/
+tmp/
+scratchpad/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Project specific
+database/backups/
+*.sql.backup
+test_*.py
+check_*.py
+fix_*.py
+reload_*.py
+update_*.py
+
+# Documentation (keep only essential docs)
+CHANGES.md
+NON_PO_FLAG_ISSUE.md
