@@ -1,28 +1,17 @@
 from flask import Flask, render_template, jsonify, request
 import psycopg2
 from psycopg2.extras import RealDictCursor
-import os
 from anthropic import Anthropic
 from decimal import Decimal
 from datetime import date, datetime
 import json
-from dotenv import load_dotenv
-
-load_dotenv()
+from config import DB_CONFIG, ANTHROPIC_API_KEY
 
 app = Flask(__name__)
 
-DB_CONFIG = {
-    'host': 'localhost',
-    'port': 5432,
-    'database': 'contract_management',
-    'user': 'contract_admin',
-    'password': 'SecurePass2026!'
-}
-
 # Initialize Anthropic client
 try:
-    anthropic_client = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY', ''))
+    anthropic_client = Anthropic(api_key=ANTHROPIC_API_KEY)
 except:
     anthropic_client = None
 

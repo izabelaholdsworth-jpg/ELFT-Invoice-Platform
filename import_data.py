@@ -5,14 +5,7 @@ from datetime import datetime
 import sys
 import os
 import numpy as np
-
-DB_CONFIG = {
-    'host': 'localhost',
-    'port': 5432,
-    'database': 'contract_management',
-    'user': 'contract_admin',
-    'password': 'SecurePass2026!'
-}
+from config import DB_CONFIG
 
 def get_db_connection():
     return psycopg2.connect(**DB_CONFIG)
