@@ -31,6 +31,11 @@ env/
 .env.local
 .env.*.local
 
+# Data exports - may contain sensitive financial/patient data
+railway_data_complete.sql
+railway_data_import.sql
+*.data.sql
+
 # IDE
 .vscode/
 .idea/

@@ -31,7 +31,7 @@ else:
         'port': int(os.getenv('DB_PORT', 5432)),
         'database': os.getenv('DB_NAME', 'contract_management'),
         'user': os.getenv('DB_USER', 'contract_admin'),
-        'password': os.getenv('DB_PASSWORD', 'SecurePass2026!')
+        'password': os.getenv('DB_PASSWORD', '')
     }
 
 # API Keys
